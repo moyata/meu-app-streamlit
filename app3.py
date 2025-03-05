@@ -37,7 +37,7 @@ if arquivo:
             st.write("Livro encontrado na planilha:")
             st.write(resultado)
         else:
-            st.warning("ISBN não encontrado na planilha. Buscando na internet...")
+            st.warning("[versão 1.1] ISBN não encontrado na planilha. Buscando na internet...")
             titulo, autor, categoria, preco = buscar_google_books(isbn)
             st.write(f"**Título:** {titulo}")
             st.write(f"**Autor:** {autor}")
