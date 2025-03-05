@@ -2,9 +2,11 @@ import streamlit as st
 import pandas as pd
 import requests
 
+API_KEY = "103202136972643302963"  # Chave do Gepeto 🔑
+
 # Função para buscar dados pela API do Google Books
 def buscar_google_books(isbn):
-    url = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}&maxResults=5"
+    url = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}&maxResults=5&key={API_KEY}"
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
@@ -25,7 +27,7 @@ def buscar_google_books(isbn):
 def carregar_planilha(arquivo):
     return pd.read_excel(arquivo, sheet_name="GERAL", dtype={"ISBN": str})
 
-st.title("Pesquisa de Livros por ISBN [versão 1.3]")
+st.title("Pesquisa de Livros por ISBN")
 
 # Upload da planilha
 arquivo = st.file_uploader("Envie a planilha de livros", type=["xlsx"])
