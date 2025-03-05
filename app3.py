@@ -8,13 +8,14 @@ def buscar_google_books(isbn):
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
-        if "items" in data:
-            livro = data["items"][0]["volumeInfo"]
-            titulo = livro.get("title", "Título não encontrado")
-            autor = ", ".join(livro.get("authors", ["Autor não encontrado"]))
-            categoria = ", ".join(livro.get("categories", ["Categoria não encontrada"]))
-            preco = "Preço não disponível"
-            return titulo, autor, categoria, preco
+        if "items" in data and len(data["items"]) > 0:
+            for item in data["items"]:
+                livro = item["volumeInfo"]
+                titulo = livro.get("title", "Título não encontrado")
+                autor = ", ".join(livro.get("authors", ["Autor não encontrado"]))
+                categoria = ", ".join(livro.get("categories", ["Categoria não encontrada"]))
+                preco = "Preço não disponível"
+                return titulo, autor, categoria, preco
     return "Não encontrado", "Não encontrado", "Não encontrado", "Não disponível"
 
 # Carregar planilha
