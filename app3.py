@@ -30,7 +30,7 @@ def carregar_planilha(arquivo):
 st.title("Pesquisa de Livros por ISBN")
 
 # Upload da planilha
-arquivo = st.file_uploader("Envie a planilha de livros", type=["xlsx"])
+arquivo = st.file_uploader("Envie a planilha de livros [1.0]", type=["xlsx"])
 
 if arquivo:
     df = carregar_planilha(arquivo)
