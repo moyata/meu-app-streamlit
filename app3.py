@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import requests
-
 # Função para buscar dados pela API do Google Books
 def buscar_google_books(isbn):
     url = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}"
@@ -38,7 +37,7 @@ if arquivo:
             st.write("Livro encontrado na planilha:")
             st.write(resultado)
         else:
-            st.warning("[Versao 1.0] ISBN não encontrado na planilha. Buscando na internet...")
+            st.warning("ISBN não encontrado na planilha. Buscando na internet...")
             titulo, autor, categoria, preco = buscar_google_books(isbn)
             st.write(f"**Título:** {titulo}")
             st.write(f"**Autor:** {autor}")
