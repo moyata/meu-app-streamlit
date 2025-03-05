@@ -25,14 +25,14 @@ def buscar_google_books(isbn):
 def carregar_planilha(arquivo):
     return pd.read_excel(arquivo, sheet_name="GERAL", dtype={"ISBN": str})
 
-st.title("Pesquisa de Livros por ISBN")
+st.title("Pesquisa de Livros por ISBN [versão 1.3]")
 
 # Upload da planilha
 arquivo = st.file_uploader("Envie a planilha de livros", type=["xlsx"])
 
 if arquivo:
     df = carregar_planilha(arquivo)
-    isbn = st.text_input("[versão 1.2] Digite o ISBN para pesquisar:")
+    isbn = st.text_input("Digite o ISBN para pesquisar:")
 
     if st.button("Pesquisar") and isbn:
         resultado = df[df["ISBN"] == isbn]
