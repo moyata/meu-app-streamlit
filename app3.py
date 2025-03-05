@@ -1,31 +1,45 @@
 import streamlit as st
 import pandas as pd
+import requests
 
-# Título do app
+# Função para buscar dados pela API do Google Books
+def buscar_google_books(isbn):
+    url = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        if "items" in data:
+            livro = data["items"][0]["volumeInfo"]
+            titulo = livro.get("title", "Título não encontrado")
+            autor = ", ".join(livro.get("authors", ["Autor não encontrado"]))
+            categoria = ", ".join(livro.get("categories", ["Categoria não encontrada"]))
+            preco = "Preço não disponível"
+            return titulo, autor, categoria, preco
+    return "Não encontrado", "Não encontrado", "Não encontrado", "Não disponível"
+
+# Carregar planilha
+@st.cache_data
+def carregar_planilha(arquivo):
+    return pd.read_excel(arquivo, sheet_name="GERAL", dtype={"ISBN": str})
+
 st.title("Pesquisa de Livros por ISBN")
 
-# Carregar o arquivo Excel
-arquivo = st.file_uploader("Envie o arquivo de livros", type=["xlsx", "xls"])
+# Upload da planilha
+arquivo = st.file_uploader("Envie a planilha de livros", type=["xlsx"])
 
 if arquivo:
-    # Lê a planilha na aba GERAL e força a coluna ISBN a ser tratada como string
-    df = pd.read_excel(arquivo, sheet_name="GERAL", dtype={"ISBN": str})
+    df = carregar_planilha(arquivo)
+    isbn = st.text_input("Digite o ISBN para pesquisar:")
 
-    # Exibe as primeiras linhas da tabela (opcional)
-    st.write("**Dados carregados da planilha (aba GERAL):**")
-    st.dataframe(df.head())
-
-    # Entrada do usuário para pesquisar o ISBN
-    isbn_pesquisa = st.text_input("Digite o ISBN para pesquisa:")
-
-    # Verifica se o usuário digitou algo
-    if isbn_pesquisa:
-        # Filtra a coluna ISBN e encontra o livro correspondente
-        resultado = df[df['ISBN'] == isbn_pesquisa]
-
-        # Verifica se o ISBN foi encontrado
+    if st.button("Pesquisar") and isbn:
+        resultado = df[df["ISBN"] == isbn]
         if not resultado.empty:
-            st.write("**Livro encontrado:**")
-            st.dataframe(resultado)  # Exibe o livro encontrado
+            st.write("Livro encontrado na planilha:")
+            st.write(resultado)
         else:
-            st.write("Nenhum livro encontrado com esse ISBN.")
+            st.warning("ISBN não encontrado na planilha. Buscando na internet...")
+            titulo, autor, categoria, preco = buscar_google_books(isbn)
+            st.write(f"**Título:** {titulo}")
+            st.write(f"**Autor:** {autor}")
+            st.write(f"**Categoria:** {categoria}")
+            st.write(f"**Preço:** {preco}")
