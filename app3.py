@@ -32,7 +32,7 @@ arquivo = st.file_uploader("Envie a planilha de livros", type=["xlsx"])
 
 if arquivo:
     df = carregar_planilha(arquivo)
-    isbn = st.text_input("Digite o ISBN para pesquisar:")
+    isbn = st.text_input("[versão 1.2] Digite o ISBN para pesquisar:")
 
     if st.button("Pesquisar") and isbn:
         resultado = df[df["ISBN"] == isbn]
