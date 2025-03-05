@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import requests
 
-API_KEY = "oflivros@oficinadelivros.iam.gserviceaccount.com"  # Chave do Gepeto 🔑
+API_KEY = "AIzaSyANfUXUjmQv-Pem9AZyGpziAB2ZJ0XrScM"  # Chave do Gepeto 🔑
 
 # Função para buscar dados pela API do Google Books
 def buscar_google_books(isbn):
