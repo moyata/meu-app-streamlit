@@ -4,7 +4,7 @@ import requests
 
 # Função para buscar dados pela API do Google Books
 def buscar_google_books(isbn):
-    url = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}&maxResults=5"
+    url = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}&maxResults=9"
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
